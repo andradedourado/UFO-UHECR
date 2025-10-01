@@ -29,11 +29,11 @@ def plot_photon_fields(region):
 
     DE_data = np.loadtxt(f"{REFERENCES_DIR}/Ehlert2025_photon_field_{region}.dat")
     LAD_data = np.loadtxt(f"{RESULTS_DIR}/photon_field_{region}.dat")
-    
+
     plt.plot(np.log10(LAD_data[:,0]), LAD_data[:,0] * LAD_data[:,1], c = get_region_color(region), label = 'LAD')
     plt.plot(DE_data[:,0], DE_data[:,1], c = get_region_color(region), ls = '--', label = 'DE')
     plt.yscale('log')
-    plt.ylim([1e41, 1e45])    
+    # plt.ylim([1e41, 1e45])    
     plt.xlabel(r'$\rm \log_{10}{(Frequency / Hz)}$')
     plt.ylabel(r'$\nu L_{\nu} \: \rm [erg / s]$')
     plt.legend(title = 'Results')
@@ -45,6 +45,6 @@ def plot_photon_fields(region):
 if __name__ == '__main__':
 
     # for region in ['disk', 'corona', 'torus']:
-    plot_photon_fields('torus')
+    plot_photon_fields('disk')
 
 # ----------------------------------------------------------------------------------------------------

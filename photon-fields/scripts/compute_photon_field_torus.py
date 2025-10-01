@@ -9,8 +9,6 @@ c = 2.99792458e10 # cm / s
 h = 6.62607015e-27 # erg * s
 k = 1.380649e-16 # erg / K
 
-# L_bol = 1e45 # erg / s
-# L_disk = 0.5 * L_bol # erg / s
 L_X = pow(10, 43.8) # erg / s
 T_IR = 200 # K
 
@@ -22,7 +20,7 @@ def normalization_correction_factor(): # Mullaney et al. (2011)
 # ----------------------------------------------------------------------------------------------------
 def blackbody_radiance_nu(nu): # Spectral radiance: energy emitted per unit area, per unit solid angle, per unit frequency, and per unit time
 
-    return 2 * h * nu**3 / c**2 / (np.exp((h * nu) / (k * T_IR)) - 1) # erg / cm^2 / sr^-1 / Hz / s
+    return 2 * h * nu**3 / c**2 / (np.exp((h * nu) / (k * T_IR)) - 1) # erg / s / cm^2 / sr / Hz
 
 # ----------------------------------------------------------------------------------------------------
 def compute_photon_field(nu):
