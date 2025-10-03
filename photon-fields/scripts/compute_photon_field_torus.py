@@ -15,7 +15,7 @@ T_IR = 200 # K
 # ----------------------------------------------------------------------------------------------------
 def normalization_correction_factor(): # Mullaney et al. (2011)
 
-    return (np.exp(0.53) + (L_X / 1e43)**1.1) * 1e43 # erg / s 
+    return (pow(10, 0.53) * (L_X / 1e43)**1.1) * 1e43 # erg / s 
 
 # ----------------------------------------------------------------------------------------------------
 def blackbody_radiance_nu(nu): # Spectral radiance: energy emitted per unit area, per unit solid angle, per unit frequency, and per unit time
@@ -31,7 +31,7 @@ def compute_photon_field(nu):
 def write_photon_field():
 
     nu = np.logspace(11, 14, num = 100) # Hz
-    return np.savetxt(f"{RESULTS_DIR}/photon_field_torus.dat", np.column_stack((nu, compute_photon_field(nu))), fmt = "%.15e")
+    np.savetxt(f"{RESULTS_DIR}/photon_field_torus.dat", np.column_stack((nu, compute_photon_field(nu))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
