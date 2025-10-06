@@ -14,6 +14,12 @@ E_crit = 500 * keV_to_eV # eV
 L_X = pow(10, 43.8) # erg / s
 
 # ----------------------------------------------------------------------------------------------------
+def photon_field_disk_25eV():
+
+    data = np.loadtxt(f"{RESULTS_DIR}/photon_field_disk.dat")
+    return np.interp(25, data[:,0] * h, data[:,1])
+
+# ----------------------------------------------------------------------------------------------------
 def integrand_photon_field(E):
 
     if E >= E_break:
@@ -25,16 +31,29 @@ def integrand_photon_field(E):
 def compute_photon_field(E):
 
     L = np.zeros_like(E)
-
     mask = E >= E_break
-    L[mask] = (E[mask] / E_break)**-b * np.exp(-E[mask] / E_crit)
 
-    return L_X * L / quad(integrand_photon_field, 2 * keV_to_eV, 10 * keV_to_eV)[0] * h # erg / s / Hz
+    # Hot corona
+    L[mask] = (E[mask] / E_break)**-b * np.exp(-E[mask] / E_crit)
+    L = L_X * L / quad(integrand_photon_field, 2 * keV_to_eV, 10 * keV_to_eV)[0] * h # erg / s / Hz
+
+    # Soft X-ray regime: L(E) = const * (E / E_break)**-index
+    E_soft_start = 25.0  # eV
+    L_soft_25eV = photon_field_disk_25eV()
+    L_Ebreak = L[mask][0]
+
+    index = -np.log(L_soft_25eV / L_Ebreak) / np.log(E_soft_start / E_break)
+    L[~mask] = L_Ebreak * (E[~mask] / E_break)**-index
+
+    return L
 
 # ----------------------------------------------------------------------------------------------------
 def write_photon_field():
 
-    E = np.logspace(3, 7, num = 100) # eV
+    E_soft = np.logspace(np.log10(25), np.log10(E_break), num = 50, endpoint = False)
+    E_hot = np.logspace(np.log10(E_break), 7, num = 50)
+    E = np.concatenate((E_soft, E_hot)) # eV
+
     np.savetxt(f"{RESULTS_DIR}/photon_field_corona.dat", np.column_stack((E / h, compute_photon_field(E))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
