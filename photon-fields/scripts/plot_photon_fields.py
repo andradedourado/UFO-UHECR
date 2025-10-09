@@ -5,6 +5,8 @@ FIGURES_DIR = "../figures"
 REFERENCES_DIR = "../references"
 RESULTS_DIR = "../results"
 
+h = 4.135667696e-15 # eV * s
+
 plt.rcParams.update({'legend.fontsize': 'x-large',
 'legend.title_fontsize': 'x-large',
 'axes.labelsize': 'xx-large',
@@ -85,11 +87,31 @@ def plot_all_photon_fields():
     plt.show()
 
 # ----------------------------------------------------------------------------------------------------
+def plot_soft_xray_reference(): # Test
+
+    nu = np.logspace(np.log10(25), 3, num = 100) / h
+    nu_L_nu = np.zeros_like(nu)
+
+    for region in ['corona', 'disk']:
+        data = np.loadtxt(f"{REFERENCES_DIR}/Ehlert2025_photon_field_{region}.dat")
+        nu_L_nu_interp = np.interp(nu, pow(10, data[:,0]), data[:,1], left = 0, right = 0)
+        nu_L_nu += nu_L_nu_interp
+
+    plt.plot(np.log10(nu), nu_L_nu, c = 'k')
+    plt.yscale('log')
+    plt.ylim([1e41, 1e46])
+    plt.xlabel(r'$\rm \log_{10}{(Frequency / Hz)}$')
+    plt.ylabel(r'$\nu L_{\nu} \: \rm [erg / s]$')
+    plt.show()
+
+# ----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
 
-    # for region in ['torus', 'disk', 'corona']:
-    #     plot_individual_photon_field(region)
+    for region in ['torus', 'disk', 'corona']:
+        plot_individual_photon_field(region)
 
     plot_all_photon_fields()
+
+    # plot_soft_xray_reference()
 
 # ----------------------------------------------------------------------------------------------------
