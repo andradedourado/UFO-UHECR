@@ -17,7 +17,7 @@ L_X = pow(10, 43.8) # erg / s
 # ----------------------------------------------------------------------------------------------------
 def photon_field_disk(E):
 
-    data = np.loadtxt(f"{RESULTS_DIR}/photon_field_disk.dat")
+    data = np.loadtxt(f"{RESULTS_DIR}/photon_field_luminosity_disk.dat")
     return np.interp(E, data[:,0] * h, data[:,1])
 
 # ----------------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ def write_photon_field():
     E_hot = np.logspace(np.log10(E_break), 7, num = 50)
     E = np.concatenate((E_soft_01, E_soft_02, E_hot)) # eV
 
-    np.savetxt(f"{RESULTS_DIR}/photon_field_corona.dat", np.column_stack((E / h, compute_photon_field(E))), fmt = "%.15e")
+    np.savetxt(f"{RESULTS_DIR}/photon_field_luminosity_corona.dat", np.column_stack((E / h, compute_photon_field(E))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':

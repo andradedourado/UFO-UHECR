@@ -31,7 +31,7 @@ def compute_photon_field(nu):
 def write_photon_field():
 
     nu = np.logspace(11, 14, num = 100) # Hz
-    np.savetxt(f"{RESULTS_DIR}/photon_field_torus.dat", np.column_stack((nu, compute_photon_field(nu))), fmt = "%.15e")
+    np.savetxt(f"{RESULTS_DIR}/photon_field_luminosity_torus.dat", np.column_stack((nu, compute_photon_field(nu))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
