@@ -78,6 +78,7 @@ def plot_all_photon_fields():
     plt.plot(np.log10(nu), nu * sum_photon_fields(nu), c = 'k', ls = ':', label = 'Total')
     
     plt.yscale('log')
+    plt.xlim([11, 22])
     plt.ylim([1e41, 1e46])    
     plt.xlabel(r'$\rm \log_{10}{(Frequency / Hz)}$')
     plt.ylabel(r'$\nu L_{\nu} \: \rm [erg / s]$')

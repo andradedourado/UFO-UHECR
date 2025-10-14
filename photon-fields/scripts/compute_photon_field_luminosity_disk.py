@@ -8,7 +8,7 @@ eV_to_erg = 1.602176634e-12
 solar_mass_to_g = 1.989e33
 
 c = 2.99792458e10 # cm / s
-G = 6.67430e-8 # m^3 / g / s^2
+G = 6.67430e-8 # cm^3 / g / s^2
 h = 6.62607015e-27 # erg * s
 k = 1.380649e-16 # erg / K
 sigma = 5.670374419e-5 # erg / s / cm^2 / K^4
@@ -59,7 +59,7 @@ def compute_photon_field(nu_array):
 # ----------------------------------------------------------------------------------------------------
 def write_photon_field():
 
-    nu_array = np.logspace(13, 17, num = 100) # Hz    
+    nu_array = np.logspace(11, 17, num = 100) # Hz    
     np.savetxt(f"{RESULTS_DIR}/photon_field_luminosity_disk.dat", np.column_stack((nu_array, compute_photon_field(nu_array))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
