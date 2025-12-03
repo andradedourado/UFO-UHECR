@@ -59,7 +59,7 @@ def compute_photon_field(nu_array):
 # ----------------------------------------------------------------------------------------------------
 def write_photon_field():
 
-    nu_array = np.logspace(11, 17, num = 100) # Hz    
+    nu_array = np.logspace(10, 17, num = 100) # Hz    
     np.savetxt(f"{RESULTS_DIR}/photon_field_luminosity_disk.dat", np.column_stack((nu_array, compute_photon_field(nu_array))), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------

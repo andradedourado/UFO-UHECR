@@ -27,10 +27,10 @@ def get_region_color(region):
 def get_region_label(region):
 
     if region == 'torus':
-        return 'Torus'
+        return 'Dust torus'
 
     elif region == 'disk':
-        return 'Disk'
+        return 'Accretion disk'
 
     elif region == 'corona':
         return 'Corona'
@@ -46,7 +46,7 @@ def plot_photon_fields():
     plt.ylim([1e2, 1e12])
     plt.xlabel(r'$\rm \log_{10}$(Photon energy/eV)')
     plt.ylabel(r'Number density$\rm \: [cm^{-3} eV^{-1}]$')
-    plt.legend(title = 'Region')
+    plt.legend()
     plt.savefig(f"{FIGURES_DIR}/photon_fields_density.pdf", bbox_inches = 'tight')
     plt.savefig(f"{FIGURES_DIR}/photon_fields_density.png", bbox_inches = 'tight', dpi = 300)
     plt.show()

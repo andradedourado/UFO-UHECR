@@ -7,7 +7,7 @@ solar_mass_to_g = 1.989e33
 
 c = 2.99792458e10 # cm / s
 G = 6.67430e-8 # cm^3 / g / s^2
-h = 6.62607015e-27  # erg * s
+h = 6.62607015e-27 # erg * s
 
 # Benchmark model 
 L_bol = 1e45 # erg / s
@@ -32,22 +32,30 @@ def region_radius(region):
         return 2.5e18 * (L_disk / 1e45)**(1/2) # cm 
 
 # ----------------------------------------------------------------------------------------------------
-def write_photon_field_density(region): # [Number of photons per unit volume and energy] = cm^-3 eV^1
+def write_photon_field_density(region, D): # [Number of photons per unit volume and energy] = cm^-3 eV^1
     
     data = np.loadtxt(f"{RESULTS_DIR}/photon_field_luminosity_{region}.dat")
         
-    E = h * data[:,0] # erg
-    nu_L_nu = data[:,0] * data[:,1] # erg / s
-    photon_number_density = nu_L_nu / (4 * np.pi * region_radius(region)**2 * c * E**2 * erg_to_eV)
-        
-    np.savetxt(f"{RESULTS_DIR}/photon_field_density_{region}.dat", np.column_stack((E * erg_to_eV, photon_number_density)), fmt = "%.15e")
+    nu = data[:,0] # Hz
+    L_nu = data[:,1] # erg / s / Hz
+
+    if D < region_radius(region):
+        u_nu = 9 / 4 * L_nu / (4 * np.pi * region_radius(region)**2 * c)
+
+    elif D > region_radius(region):
+        u_nu = L_nu / (4 * np.pi * D**2 * c)
+
+    photon_number_density = u_nu / (h**2 * nu * erg_to_eV) # cm^-3 eV^1
+
+    E = h * nu * erg_to_eV    
+    np.savetxt(f"{RESULTS_DIR}/photon_field_density_{region}.dat", np.column_stack((E, photon_number_density)), fmt = "%.15e")
 
 # ----------------------------------------------------------------------------------------------------
 if __name__ == '__main__':
 
+    R_sh = 2.390145567822234e18 # cm
+
     for region in ['corona', 'disk', 'torus']:
-        write_photon_field_density(region)
+        write_photon_field_density(region, R_sh)
 
 # ----------------------------------------------------------------------------------------------------
-
-
