@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+FIGURES_DIR = "../figures"
 REFERENCES_DIR = "../references"
 
 plt.rcParams.update({'legend.fontsize': 'x-large',
@@ -21,7 +22,7 @@ B_2 = 85 * mG_to_nG
 l_c = 0.01 # pc
 dlt = 5/3
 
-Z = 7
+Z = 1
 
 # ----------------------------------------------------------------------------------------------------
 def characteristic_diffusion_energy(): # B in nG, l_c in pc 
@@ -37,7 +38,7 @@ def diffusion_coefficient(E):
 # ----------------------------------------------------------------------------------------------------
 def plot_diffusion_coefficent():
 
-    E = np.logspace(-4, 4, num = 100)
+    E = np.logspace(-6, 4, num = 100)
     plt.plot(np.log10(E * 1e18), diffusion_coefficient(E), label = 'LAD')
 
     DE_data = np.loadtxt(f"{REFERENCES_DIR}/DE_down_diff_coeff_protons.dat") # pc^2 / yr
@@ -47,6 +48,8 @@ def plot_diffusion_coefficent():
     plt.xlabel(r'$\rm \log_{10}{(Energy / eV)}$')
     plt.ylabel(r'Diffusion coefficient$\rm \: [cm^2/s]$')
     plt.legend(title = 'Results')
+    plt.savefig(f"{FIGURES_DIR}/diffusion_coefficient.pdf", bbox_inches = 'tight')
+    plt.savefig(f"{FIGURES_DIR}/diffusion_coefficient.png", bbox_inches = 'tight', dpi = 300)
     plt.show()
 
 # ----------------------------------------------------------------------------------------------------
